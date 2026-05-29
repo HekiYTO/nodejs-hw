@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Buy groceries",
+    "content": "Milk, bread, eggs, cheese",
+    "tag": "Shopping"
+  },
+  {
+    "title": "Project deadline",
+    "content": "Submit project by Friday",
+    "tag": "Work"
+  },
+  {
+    "title": "Meeting with team",
+    "content": "Discuss new features for the app",
+    "tag": "Meeting"
+  },
+  {
+    "title": "Personal goals",
+    "content": "Learn new programming language",
+    "tag": "Personal"
+  },
+  {
+    "title": "Travel plans",
+    "content": "Book flights to Paris",
+    "tag": "Travel"
+  }
+]

@@ -6,6 +6,12 @@ import {
   deleteNote,
   updateNote,
 } from '../controllers/notesController.js';
+import {
+  getAllNotesSchema,
+  noteIdSchema,
+  createNoteSchema,
+  updateNoteSchema,
+} from '../validations/notesValidations.js';
 
 const router = Router();
 
@@ -14,10 +20,10 @@ const asyncHandler = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
 
-router.get('/notes', asyncHandler(getAllNotes));
-router.get('/notes/:noteId', asyncHandler(getNoteById));
-router.post('/notes', asyncHandler(createNote));
-router.delete('/notes/:noteId', asyncHandler(deleteNote));
-router.patch('/notes/:noteId', asyncHandler(updateNote));
+router.get('/notes', getAllNotesSchema, asyncHandler(getAllNotes));
+router.get('/notes/:noteId', noteIdSchema, asyncHandler(getNoteById));
+router.post('/notes', createNoteSchema, asyncHandler(createNote));
+router.delete('/notes/:noteId', noteIdSchema, asyncHandler(deleteNote));
+router.patch('/notes/:noteId', updateNoteSchema, asyncHandler(updateNote));
 
 export default router;

@@ -23,14 +23,14 @@ export const getAllNotes = async (req, res) => {
     });
   }
 
-  // Get total count before pagination
-  const totalNotes = await Note.countDocuments(query.getFilter());
-
-  // Apply pagination
-  const notes = await query
-    .skip((page - 1) * perPage)
-    .limit(perPage)
-    .sort({ createdAt: -1 });
+  // Get total count and notes simultaneously
+  const [totalNotes, notes] = await Promise.all([
+    Note.countDocuments(query.getFilter()),
+    query
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .sort({ createdAt: -1 }),
+  ]);
 
   const totalPages = Math.ceil(totalNotes / perPage);
 

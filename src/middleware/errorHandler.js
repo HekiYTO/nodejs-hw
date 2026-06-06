@@ -7,9 +7,9 @@ export const errorHandler = (err, req, res, next) => {
   // Handle celebrate validation errors
   if (isCelebrateError(err)) {
     console.log('Celebrate error details:', err.details);
-    
+
     const messages = [];
-    
+
     for (const [segment, joiError] of err.details) {
       if (joiError.details) {
         for (const detail of joiError.details) {

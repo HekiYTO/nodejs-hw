@@ -6,10 +6,18 @@ export const errorHandler = (err, req, res, next) => {
 
   // Handle celebrate validation errors
   if (isCelebrateError(err)) {
-    const { details } = err;
-    const message = details
-      .map((detail) => `${detail.context.label}: ${detail.message}`)
-      .join('; ');
+    console.log('Celebrate error details:', err.details);
+    
+    const messages = [];
+    
+    for (const [segment, joiError] of err.details) {
+      if (joiError.details) {
+        for (const detail of joiError.details) {
+          messages.push(detail.message);
+        }
+      }
+    }
+    const message = messages.length > 0 ? messages.join('; ') : 'Validation error';
 
     return res.status(400).json({
       message,

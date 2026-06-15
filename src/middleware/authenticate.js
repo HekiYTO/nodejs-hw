@@ -3,15 +3,18 @@ import { Session } from '../models/session.js';
 import { User } from '../models/user.js';
 
 export const authenticate = async (req, res, next) => {
-  const { accessToken } = req.cookies;
+  const { accessToken, sessionId } = req.cookies;
 
   // Проверяем наличие accessToken
   if (!accessToken) {
     throw createHttpError(401, 'Missing access token');
   }
 
-  // Ищем сессию по accessToken
-  const session = await Session.findOne({ accessToken });
+  // Ищем сессию по sessionId и accessToken
+  const session = await Session.findOne({
+    _id: sessionId,
+    accessToken,
+  });
   if (!session) {
     throw createHttpError(401, 'Session not found');
   }

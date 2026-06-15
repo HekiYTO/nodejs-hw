@@ -7,6 +7,7 @@ import {
   deleteNote,
   updateNote,
 } from '../controllers/notesController.js';
+import { authenticate } from '../middleware/authenticate.js';
 import {
   getAllNotesSchema,
   noteIdSchema,
@@ -21,10 +22,35 @@ const asyncHandler = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
 
-router.get('/notes', celebrate(getAllNotesSchema), asyncHandler(getAllNotes));
-router.get('/notes/:noteId', celebrate(noteIdSchema), asyncHandler(getNoteById));
-router.post('/notes', celebrate(createNoteSchema), asyncHandler(createNote));
-router.delete('/notes/:noteId', celebrate(noteIdSchema), asyncHandler(deleteNote));
-router.patch('/notes/:noteId', celebrate(updateNoteSchema), asyncHandler(updateNote));
+router.get(
+  '/notes',
+  asyncHandler(authenticate),
+  celebrate(getAllNotesSchema),
+  asyncHandler(getAllNotes),
+);
+router.get(
+  '/notes/:noteId',
+  asyncHandler(authenticate),
+  celebrate(noteIdSchema),
+  asyncHandler(getNoteById),
+);
+router.post(
+  '/notes',
+  asyncHandler(authenticate),
+  celebrate(createNoteSchema),
+  asyncHandler(createNote),
+);
+router.delete(
+  '/notes/:noteId',
+  asyncHandler(authenticate),
+  celebrate(noteIdSchema),
+  asyncHandler(deleteNote),
+);
+router.patch(
+  '/notes/:noteId',
+  asyncHandler(authenticate),
+  celebrate(updateNoteSchema),
+  asyncHandler(updateNote),
+);
 
 export default router;
